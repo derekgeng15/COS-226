@@ -16,6 +16,7 @@ public class Autocomplete {
             if (t == null)
                 throw new IllegalArgumentException("Term in cannot be null");
         this.terms = Arrays.copyOf(terms, terms.length);    // defensive copy
+        // order terms
         Arrays.sort(this.terms);
 
     }
@@ -25,7 +26,7 @@ public class Autocomplete {
     public Term[] allMatches(String prefix) {
         if (prefix == null)
             throw new IllegalArgumentException("prefix cannot be null");
-        
+        // find first and last index of matches
         int first = BinarySearchDeluxe.firstIndexOf(terms, new Term(prefix, 0), 
             Term.byPrefixOrder(prefix.length()));
         int last = BinarySearchDeluxe.lastIndexOf(terms, new Term(prefix, 0), 
@@ -35,6 +36,7 @@ public class Autocomplete {
         Term[] sortedTerms = new Term[last - first + 1];   
         for (int i = 0; first + i <= last; i++)
             sortedTerms[i] = terms[first + i];
+        // sort matches
         Arrays.sort(sortedTerms, Term.byReverseWeightOrder());
         return sortedTerms;
     }
@@ -43,13 +45,14 @@ public class Autocomplete {
     public int numberOfMatches(String prefix) {
         if (prefix == null)
             throw new IllegalArgumentException("prefix cannot be null");
+        // find first and last index of matches
         int firstIndex = BinarySearchDeluxe.firstIndexOf(terms, new Term(prefix, 0), 
         Term.byPrefixOrder(prefix.length()));
         int lastIndex = BinarySearchDeluxe.lastIndexOf(terms, new Term(prefix, 0), 
         Term.byPrefixOrder(prefix.length()));
         if (firstIndex < 0)     // no matches found
             return 0;
-        return lastIndex - firstIndex + 1;
+        return lastIndex - firstIndex + 1; // return distance between first and last match
     }
 
     // unit testing (required)
@@ -60,6 +63,7 @@ public class Autocomplete {
         Term[] terms = new Term[n];
         Term[] sortedTerms;
 
+        // read in n terms
         for (int i = 0; i < n; i++) {
             long weight = in.readLong();
             in.readChar();
@@ -69,12 +73,12 @@ public class Autocomplete {
 
         Autocomplete auto = new Autocomplete(terms);
         while (true) {
-            query = StdIn.readLine();
+            query = StdIn.readLine(); // string to match
             StdOut.println(auto.numberOfMatches(query) + " matches");
             sortedTerms = auto.allMatches(query);
-            for (int i = 0; i < Math.min(k, sortedTerms.length); i++) {
+            // print out the first k terms that match query
+            for (int i = 0; i < Math.min(k, sortedTerms.length); i++)
                 StdOut.println(sortedTerms[i]);
-            }
         }
 
     }

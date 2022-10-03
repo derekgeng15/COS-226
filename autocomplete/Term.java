@@ -123,7 +123,6 @@ public class Term implements Comparable<Term> {
         }
 
         // testing prefix compare
-        
         StdOut.println("Prefix Compare: ");
         Comparator<Term> prefixCompare = byPrefixOrder(3);
         for (int i = 0; i < terms.length; i++) {

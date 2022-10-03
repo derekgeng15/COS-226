@@ -66,6 +66,7 @@ public class BinarySearchDeluxe {
                     new Term("f", 1) };
                     
         Term key = new Term("b", 1);
+        // test first and last index searcher
         for (Term t : a)
             StdOut.println(t + " ");
         StdOut.println("Key: " + key);

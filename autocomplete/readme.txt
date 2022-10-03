@@ -71,14 +71,18 @@ the character limit of a line, causing a checkstyle warning
  **************************************************************************** */
 1. How to account for terms that were shorter than the prefix in the prefix
 comparator 
-    - We solved this by using Math.min(prefix length, term length) in the 
-      substring function so that we wouldn't get an out of bounds error.
+    - We solved this by using checking the minimum between the two lengths in 
+    the substring function so that we wouldn't get an out of bounds error.
 2. How to read the query strings from the file
     - At first, we were including the whitespace from the text files in our
       query variables, which messed up our prefix comparator (because we
       compared via substring starting at index 0). We fixed this by first reading
       the tab and then storing the rest of the line in the query var.
-
+3. LastIndexOf going out of bounds
+    - An edge case we didn't account for was how if the lo pointer went out
+      of bounds, we still tried to access the array and check if a[lo] == key.
+      To solve this, we added a guard statement in the if statement checking 
+      if lo is in bound.
 /* *****************************************************************************
  *  If you worked with a partner, assert below that you followed
  *  the protocol as described on the assignment page. Give one

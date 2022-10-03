@@ -26,7 +26,8 @@ public class BinarySearchDeluxe {
                 hi = mid; // keep mid in bound & find potential lower key
 
         }
-        if (comparator.compare(a[lo], key) != 0) // key not found in array
+        // key not found in array
+        if (lo >= a.length || comparator.compare(a[lo], key) != 0) 
             return -1;
         return lo;
     }
@@ -51,7 +52,7 @@ public class BinarySearchDeluxe {
             else
                 lo = mid; // keep mid in bound & find potential higher keys
         }
-        if (comparator.compare(a[lo], key) != 0) // key not found in array
+        if (lo >= a.length || comparator.compare(a[lo], key) != 0) // key not found in array
             return -1;
         return lo;
     }
@@ -68,8 +69,8 @@ public class BinarySearchDeluxe {
         for (Term t : a)
             StdOut.println(t + " ");
         StdOut.println("Key: " + key);
-        StdOut.println("First Index Of: " + firstIndexOf(a, key, Term.byPrefixOrder(1)));
-        StdOut.println("Last Index Of: " + lastIndexOf(a, key, Term.byPrefixOrder(1)));
+        StdOut.println("First Index: " + firstIndexOf(a, key, Term.byPrefixOrder(1)));
+        StdOut.println("Last Index: " + lastIndexOf(a, key, Term.byPrefixOrder(1)));
 
         // test searching based on reverse weight order
         Arrays.sort(a, Term.byReverseWeightOrder());
@@ -80,5 +81,7 @@ public class BinarySearchDeluxe {
         StdOut.println(firstIndexOf(a, key, Term.byReverseWeightOrder()));
         StdOut.println("Last Index: ");
         StdOut.println(lastIndexOf(a, key, Term.byReverseWeightOrder()));
+
+
     }
 }

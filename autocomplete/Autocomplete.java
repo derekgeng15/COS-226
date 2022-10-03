@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Autocomplete {
 
-    Term[] terms; // stores all terms
+    private Term[] terms; // stores all terms
 
     // Initializes the data structure from the given array of terms.
     public Autocomplete(Term[] terms) {
@@ -15,7 +15,7 @@ public class Autocomplete {
         for (Term t : terms)
             if (t == null)
                 throw new IllegalArgumentException("Term in cannot be null");
-        this.terms = terms;
+        this.terms = Arrays.copyOf(terms, terms.length);    // defensive copy
         Arrays.sort(this.terms);
 
     }
@@ -25,11 +25,15 @@ public class Autocomplete {
     public Term[] allMatches(String prefix) {
         if (prefix == null)
             throw new IllegalArgumentException("prefix cannot be null");
-        int n = numberOfMatches(prefix);
-        Term[] sortedTerms = new Term[n];
+        
         int first = BinarySearchDeluxe.firstIndexOf(terms, new Term(prefix, 0), 
             Term.byPrefixOrder(prefix.length()));
-        for (int i = 0; i < n; i++)
+        int last = BinarySearchDeluxe.lastIndexOf(terms, new Term(prefix, 0), 
+            Term.byPrefixOrder(prefix.length()));
+        if (first < 0) return new Term[0];      // return empty array if no matches
+        // create new array based on # matches
+        Term[] sortedTerms = new Term[last - first + 1];   
+        for (int i = 0; first + i <= last; i++)
             sortedTerms[i] = terms[first + i];
         Arrays.sort(sortedTerms, Term.byReverseWeightOrder());
         return sortedTerms;
@@ -39,10 +43,13 @@ public class Autocomplete {
     public int numberOfMatches(String prefix) {
         if (prefix == null)
             throw new IllegalArgumentException("prefix cannot be null");
-        return BinarySearchDeluxe.lastIndexOf(terms, new Term(prefix, 0), 
-                Term.byPrefixOrder(prefix.length()))
-                - BinarySearchDeluxe.firstIndexOf(terms, new Term(prefix, 0), 
-                Term.byPrefixOrder(prefix.length())) + 1;
+        int firstIndex = BinarySearchDeluxe.firstIndexOf(terms, new Term(prefix, 0), 
+        Term.byPrefixOrder(prefix.length()));
+        int lastIndex = BinarySearchDeluxe.lastIndexOf(terms, new Term(prefix, 0), 
+        Term.byPrefixOrder(prefix.length()));
+        if (firstIndex < 0)     // no matches found
+            return 0;
+        return lastIndex - firstIndex + 1;
     }
 
     // unit testing (required)

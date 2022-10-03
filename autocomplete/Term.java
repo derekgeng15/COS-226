@@ -51,11 +51,21 @@ public class Term implements Comparable<Term> {
         
         // compares the substrings from 0 to r of both terms
         public int compare(Term o1, Term o2) {
-            // string length is restricted 
-            String s1 = o1.query.substring(0, Math.min(r, o1.query.length()));
-            String s2 = o2.query.substring(0, Math.min(r, o2.query.length()));
-            return s1.compareTo(s2);
-
+            for (int i = 0; i < r; i++) {
+                // return compare values based on string lengths
+                if (i >= o1.query.length() && i >= o2.query.length())
+                    return 0; // strings are the same
+                if (i >= o1.query.length()) 
+                    return -1; // o1 is smaller
+                if (i >= o2.query.length()) 
+                    return 1; // o2 is smaller
+                
+                if (o1.query.charAt(i) != o2.query.charAt(i))
+                // subtract ascii values to determine lexographic order
+                    return (int) o1.query.charAt(i) - o2.query.charAt(i); 
+            }
+            // have the same prefix up to r, return 0
+            return 0;
         }
 
     }

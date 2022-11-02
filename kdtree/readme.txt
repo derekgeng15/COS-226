@@ -24,17 +24,20 @@ rectangle region, and pointers to the left and right regions.
  **************************************************************************** */
 Check if the bounding rectangle of a branch intersects the query rectangle,
 if so, continue searching down that branch. If not, then that branch can be 
-pruned.
+pruned. With each point visited, if it is within the query rectangle, add 
+it to a queue to be returned. 
 
 
 /* *****************************************************************************
  *  Describe your method for nearest neighbor search in a k-d tree.
  **************************************************************************** */
-To determine which branch to traverse down first, compare the distance from 
-the left branch's bounding rectangle to the query point and the right branch's
-bounding rectangle to the query point. Whichever distance is less, traverse that
-side first. To prune a branch, the distance from its bounding rectangle has to 
-be greater than the champ distance. 
+At each iteration, update the champion point by taking the point which
+has a smaller distance to the query point between the current point and the
+old champion. To determine which branch to traverse down first, compare the 
+distance from the left branch's bounding rectangle to the query point and 
+the right branch's bounding rectangle to the query point. Whichever distance 
+is less, traverse that side first. To prune a branch, the distance from its 
+bounding rectangle has to be greater than the champ distance. 
 
 
 /* *****************************************************************************

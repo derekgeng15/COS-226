@@ -282,20 +282,21 @@ public class KdTreeST<Value> {
         StdOut.println(kdTree.nearest(new Point2D(100, 100)));
 
         // nearest timing test
-        KdTreeST<Integer> STTimer = new KdTreeST<>();
+        KdTreeST<Integer> sTTimer = new KdTreeST<>();
         In in = new In("input1M.txt");
         for (int i = 0; !in.isEmpty(); i++) {
             double x = in.readDouble(), y = in.readDouble();
-            STTimer.put(new Point2D(x, y), i);
+            sTTimer.put(new Point2D(x, y), i);
         }
         int t = 1000000; // number of trials
         Point2D[] randPoints = new Point2D[t];
         // generate t random points
         for (int i = 0; i < t; i++)
-            randPoints[i] = new Point2D(StdRandom.uniformDouble(), StdRandom.uniformDouble());
+            randPoints[i] = 
+                new Point2D(StdRandom.uniformDouble(), StdRandom.uniformDouble());
         StopwatchCPU stopwatchCPU = new StopwatchCPU();
         for (int i = 0; i < t; i++) // run nearest() t times
-            STTimer.nearest(randPoints[i]);
+            sTTimer.nearest(randPoints[i]);
         double time = stopwatchCPU.elapsedTime();
         StdOut.print("Time to do ");
         StdOut.print(t);

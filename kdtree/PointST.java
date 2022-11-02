@@ -1,7 +1,6 @@
 import edu.princeton.cs.algs4.RedBlackBST;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.Stopwatch;
 import edu.princeton.cs.algs4.StopwatchCPU;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
@@ -129,20 +128,21 @@ public class PointST<Value> {
         StdOut.println(pointST.nearest(new Point2D(100, 100)));
 
         // nearest timing test
-        PointST<Integer> STTimer = new PointST<>();
+        PointST<Integer> sTTimer = new PointST<>();
         In in = new In("input1M.txt");
         for (int i = 0; !in.isEmpty(); i++) {
             double x = in.readDouble(), y = in.readDouble();
-            STTimer.put(new Point2D(x, y), i);
+            sTTimer.put(new Point2D(x, y), i);
         }
         int t = 100; // number of trials
         Point2D[] randPoints = new Point2D[t];
         // generate t random points
         for (int i = 0; i < t; i++)
-            randPoints[i] = new Point2D(StdRandom.uniformDouble(), StdRandom.uniformDouble());
+            randPoints[i] = 
+                new Point2D(StdRandom.uniformDouble(), StdRandom.uniformDouble());
         StopwatchCPU stopwatchCPU = new StopwatchCPU();
         for (int i = 0; i < t; i++) // run nearest() t times
-            STTimer.nearest(randPoints[i]);
+            sTTimer.nearest(randPoints[i]);
         double time = stopwatchCPU.elapsedTime();
         StdOut.print("Time to do ");
         StdOut.print(t);

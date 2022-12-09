@@ -75,17 +75,18 @@ so removing a seam would change a lot.
  *  and exponents of the leading term (but not lower-order terms).
  *  Round each coefficient and exponent to two significant digits.
  **************************************************************************** */
-In a google sheet, we plotted the log of the heights vs the log of the
-runtime and then had it calculate the linear best-fit line, which had a 
-slope of 1.000. We did the same for the widths and found that the slope of 
-that best fit line was also 1.000. Multiplying the 1.000W x 1.000H = WH.
+In a google sheet, we plotted the heights vs the runtime and 
+then had it calculate the linear best-fit line, which had a 
+slope of 0.0176. We did the same for the widths and found that the slope of 
+that best fit line was also 0.0178. 
+Multiplying the 0.0178W x 0.0176H = 0.000313WH.
 
 
 Running time (in seconds) to find and remove one horizontal seam and one
 vertical seam, as a function of both W and H:
 
 
-    ~   1.000WH
+    ~   0.000313WH
 
 
 

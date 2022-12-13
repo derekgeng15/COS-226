@@ -9,13 +9,12 @@ public class CircularSuffixArray {
     // private int[] indexes;
     private int size;
     private int[] indexes;
-    private final int R;
+    private static final int R = 256;
     // circular suffix array of s
     public CircularSuffixArray(String s) {
         this.s = s;
         size = s.length();
         indexes = new int[size];
-        R = 256;
         
         for (int i = 0; i < size; i++)
             indexes[i] = i;

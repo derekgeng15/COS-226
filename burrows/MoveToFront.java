@@ -1,21 +1,22 @@
 import edu.princeton.cs.algs4.BinaryStdOut;
-import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.BinaryStdIn;
 
 public class MoveToFront {
 
     // apply move-to-front encoding, reading from stdin and writing to stdout
     public static void encode() {
-        char[] moveToFront = new char[256];
+        // create array for all the ASCII chars
+        char[] moveToFront = new char[256];         
         for(int i = 0; i < moveToFront.length; i++)
             moveToFront[i] = (char) i;
+        
         while (!BinaryStdIn.isEmpty()) {
             char c = BinaryStdIn.readChar(8);
             for (char i = 0; i < moveToFront.length; i++) {
-                if (c == moveToFront[i]) { 
+                if (c == moveToFront[i]) { // check if char matches ascii char at index
                     BinaryStdOut.write(i);
                     for (int j = i; j > 0; j--)
-                        moveToFront[j] = moveToFront[j - 1];
+                        moveToFront[j] = moveToFront[j - 1];  // shift elements down
                     moveToFront[0] = c; 
                     break;
                 }
@@ -31,10 +32,11 @@ public class MoveToFront {
             moveToFront[i] = (char) i;
         while (!BinaryStdIn.isEmpty()) {
             char c = BinaryStdIn.readChar(8);
-            BinaryStdOut.write(moveToFront[c]);
+            BinaryStdOut.write(moveToFront[c]);  // print the char at that index
+            // reconstruct move to front array
             char temp = moveToFront[c];
             for (char j = c; j > 0; j--)
-                moveToFront[j] = moveToFront[j - 1];
+                moveToFront[j] = moveToFront[j - 1];  
             moveToFront[0] = temp; 
         }
         BinaryStdOut.flush();
@@ -46,6 +48,5 @@ public class MoveToFront {
     public static void main(String[] args) {
         if (args[0].equals("-")) encode();
         else if (args[0].equals("+")) decode();
-        
     }
 }

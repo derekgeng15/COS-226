@@ -1,5 +1,4 @@
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.Quick3string;
 import edu.princeton.cs.algs4.SeparateChainingHashST;
 import edu.princeton.cs.algs4.StdOut;
 
@@ -25,7 +24,7 @@ public class CircularSuffixArray {
         sort(0, size-1, 0);
     }
 
-    private void sort (int lo, int hi, int d) {
+    private void sort(int lo, int hi, int d) {
         if (lo >= hi)
             return;
         SeparateChainingHashST<Character, Queue<Integer>> freq = new SeparateChainingHashST<>();

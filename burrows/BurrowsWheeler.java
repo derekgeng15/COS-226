@@ -2,9 +2,8 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.LSD;
 import edu.princeton.cs.algs4.SeparateChainingHashST;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.Quick3string;
-import edu.princeton.cs.algs4.Quick3way;
 
 public class BurrowsWheeler {
     // apply Burrows-Wheeler transform,
@@ -47,14 +46,17 @@ public class BurrowsWheeler {
         for (char i = 0; i < R; i++)
             freq.put(i, new Queue<Integer>());
         for (int i = 0; i < sorted.length; i++)
-            freq.get(t.charAt(i)).enqueue(i);
+            freq.get((char)sorted[i]).enqueue(i);
         int[] next = new int[t.length()];
         int curr = first;
         for (int i = 0; i < t.length(); i++) {
-            int prev = freq.get((char)sorted[curr]).dequeue();
+            StdOut.println(curr);
+            int prev = freq.get(t.charAt(curr)).dequeue();
             next[prev] = curr;
             curr = prev;
         }
+        // for (int i : next)
+        //     StdOut.println(i);
     }
 
     // if args[0] is "-", apply Burrows-Wheeler transform
@@ -62,6 +64,8 @@ public class BurrowsWheeler {
     public static void main(String[] args) {
         if (args[0].equals("-")) 
             transform();
+        else if (args[0].equals("+"))
+            inverseTransform();
     }
 
 }

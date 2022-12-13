@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.LSD;
 import edu.princeton.cs.algs4.SeparateChainingHashST;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Quick3string;
@@ -8,6 +9,9 @@ import edu.princeton.cs.algs4.Quick3way;
 public class BurrowsWheeler {
     // apply Burrows-Wheeler transform,
     // reading from standard input and writing to standard output 
+    
+    private static final int R = 256;
+
     public static void transform() {
         String s = BinaryStdIn.readString();
         CircularSuffixArray cs = new CircularSuffixArray(s);
@@ -35,17 +39,22 @@ public class BurrowsWheeler {
     public static void inverseTransform() {
         int first = BinaryStdIn.readInt();
         String t = BinaryStdIn.readString();
-        String[] sorted = new String[t.length()];
-        for (int i = 0; i < t.length(); i++) {
-           // sorted[i] = new String(t.charAt(i));
-        }
-        Quick3way.sort(sorted);
-
+        int[] sorted = new int[t.length()];
+        for (int i = 0; i < t.length(); i++)
+            sorted[i] = t.charAt(i);
+        LSD.sort(sorted);
+        SeparateChainingHashST<Character, Queue<Integer>> freq = new SeparateChainingHashST<>();
+        for (char i = 0; i < R; i++)
+            freq.put(i, new Queue<Integer>());
+        for (int i = 0; i < sorted.length; i++)
+            freq.get(t.charAt(i)).enqueue(i);
         int[] next = new int[t.length()];
         int curr = first;
-        SeparateChainingHashST<Character, Queue<Integer>> freq = new SeparateChainingHashST<>();
-        
-
+        for (int i = 0; i < t.length(); i++) {
+            int prev = freq.get((char)sorted[curr]).dequeue();
+            next[prev] = curr;
+            curr = prev;
+        }
     }
 
     // if args[0] is "-", apply Burrows-Wheeler transform

@@ -1,8 +1,6 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.LSD;
-import edu.princeton.cs.algs4.SeparateChainingHashST;
-import edu.princeton.cs.algs4.Queue;
 
 public class BurrowsWheeler {
     private static final int R = 256; // ascii size
@@ -42,21 +40,17 @@ public class BurrowsWheeler {
         for (int i = 0; i < t.length(); i++)
             sorted[i] = t.charAt(i);
         LSD.sort(sorted);   
-        // create hash map to store characters & the indexes where they occur
-        SeparateChainingHashST<Character, Queue<Integer>> freq 
-            = new SeparateChainingHashST<>();
-        for (char i = 0; i < R; i++)
-            freq.put(i, new Queue<Integer>());
-        // enqueue index where that char occurs
+        // stores last unused index of char 
+        int[] last = new int[R];
         for (int i = 0; i < sorted.length; i++)
-            freq.get(t.charAt(i)).enqueue(i); 
-        
+            last[sorted[i]] = i;
         // construct next array
         int[] next = new int[t.length()];
-        for (int i = 0; i < t.length(); i++)
-            // dequeue earliest nonused index where char occurs in sorted array
-            next[i] = freq.get((char) sorted[i]).dequeue();
-
+        // iterate through t backwards to build next
+        for (int i = t.length() - 1; i >= 0; i--) {
+            next[last[t.charAt(i)]] = i;
+            last[t.charAt(i)]--;
+        }
         // rebuild original string using next[]
         int curr = first; // start with first
         for (int i = 0; i < t.length(); i++) {

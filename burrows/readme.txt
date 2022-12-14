@@ -41,8 +41,8 @@ See the Checklist for Bash commands to compress/expand.
                                       typical            worst
 ---------------------------------------------------------------------
 CircularSuffixArray constructor       n log n / log R    n R                
-BurrowsWheeler transform()            n log n / log R    n R
-BurrowsWheeler inverseTransform()     n log n / log R    n R
+BurrowsWheeler transform()            n + R              n + R
+BurrowsWheeler inverseTransform()     n + R              n + R
 MoveToFront encode()                  n + R              n R
 MoveToFront decode()                  n + R              n R
 Huffman compress()                    n + R log R        n + R log R
@@ -67,7 +67,19 @@ Huffman expand()                      n                  n
 /* *****************************************************************************
  *  Describe any serious problems you encountered.                    
  **************************************************************************** */
+The major issues we had were coming up with efficent ways of implementing certain
+algorithms. For BurrowsWheeler, we initally used a queue to build the next array
+by starting from first and storing the order by which each index appears for each
+character, but we realized that it would be faster to build the next array starting
+from the bottom, then assigning the next array based on the last non-used index of 
+each character.
 
+Another problem we encountered was with making CircularSuffixArray non-quadratic.
+We realized that the ordering for suffix was essentially running MSD on all
+the suffixes, where the starting index of each string determined its value. Thus,
+we programmed our own modified version of MSD where instead of passing the array
+of strings to sort, we sorted an array of starting indexes which could access the 
+original string, and therefore the suffixes. 
 
 
 /* *****************************************************************************

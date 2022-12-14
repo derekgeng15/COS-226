@@ -8,26 +8,19 @@ public class MoveToFront {
 
     // apply move-to-front encoding, reading from stdin and writing to stdout
     public static void encode() {
-        char[] moveToFront = new char[R]; // store current order of ascii chars
-        char[] index = new char[R]; // stores current index of ascii char
+        char[] moveToFront = new char[R]; // store current order of ascii
         // start with array in ascii numerical order       
-        for (char i = 0; i < moveToFront.length; i++) {
-            moveToFront[i] = i;
-            index[i] = i;
-        }
+        for (int i = 0; i < moveToFront.length; i++)
+            moveToFront[i] = (char) i;
         while (!BinaryStdIn.isEmpty()) {
             char c = BinaryStdIn.readChar(8); // read in next char
-            char i = index[c]; // index of c in moveToFront
-            BinaryStdOut.write(i);
-            for (int j = i; j > 0; j--) {
-                // shift element down in moveToFront
-                moveToFront[j] = moveToFront[j - 1];
-                index[moveToFront[j]]++; // increment index of chars before c
-
-            }
-            // put c in front of moveToFront
-            moveToFront[0] = c; 
-            index[c] = 0;
+            // find matching char index
+            char i = 0;
+            while (c != moveToFront[i]) i++; 
+            BinaryStdOut.write(i); // write index to output
+            for (int j = i; j > 0; j--)
+                moveToFront[j] = moveToFront[j - 1];  // shift elements down by 1
+            moveToFront[0] = c; // move element to front
         }
         BinaryStdOut.close();
     }

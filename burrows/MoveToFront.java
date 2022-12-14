@@ -4,42 +4,50 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 public class MoveToFront {
 
     // apply move-to-front encoding, reading from stdin and writing to stdout
+    private static final int R = 256; // ascii size
+
+    // apply move-to-front encoding, reading from stdin and writing to stdout
     public static void encode() {
-        // create array for all the ASCII chars
-        char[] moveToFront = new char[256];         
-        for(int i = 0; i < moveToFront.length; i++)
-            moveToFront[i] = (char) i;
-        
+        char[] moveToFront = new char[R]; // store current order of ascii chars
+        char[] index = new char[R]; // stores current index of ascii char
+        // start with array in ascii numerical order       
+        for (char i = 0; i < moveToFront.length; i++) {
+            moveToFront[i] = i;
+            index[i] = i;
+        }
         while (!BinaryStdIn.isEmpty()) {
-            char c = BinaryStdIn.readChar(8);
-            for (char i = 0; i < moveToFront.length; i++) {
-                if (c == moveToFront[i]) { // check if char matches ascii char at index
-                    BinaryStdOut.write(i);
-                    for (int j = i; j > 0; j--)
-                        moveToFront[j] = moveToFront[j - 1];  // shift elements down
-                    moveToFront[0] = c; 
-                    break;
-                }
+            char c = BinaryStdIn.readChar(8); // read in next char
+            char i = index[c]; // index of c in moveToFront
+            BinaryStdOut.write(i);
+            for (int j = i; j > 0; j--) {
+                // shift element down in moveToFront
+                moveToFront[j] = moveToFront[j - 1];
+                index[moveToFront[j]]++; // increment index of chars before c
+
             }
+            // put c in front of moveToFront
+            moveToFront[0] = c; 
+            index[c] = 0;
         }
         BinaryStdOut.close();
     }
 
     // apply move-to-front decoding, reading from stdin and writing to stdout
     public static void decode() {
-        char[] moveToFront = new char[256];
+        // create array for all the ASCII chars
+        char[] moveToFront = new char[R];
+        // start with array in ascii numerical order       
         for (int i = 0; i < moveToFront.length; i++)
             moveToFront[i] = (char) i;
         while (!BinaryStdIn.isEmpty()) {
-            char c = BinaryStdIn.readChar(8);
-            BinaryStdOut.write(moveToFront[c]);  // print the char at that index
-            // reconstruct move to front array
+            char c = BinaryStdIn.readChar(8); // read in next char
+            BinaryStdOut.write(moveToFront[c]); // print the char at that index
             char temp = moveToFront[c];
             for (char j = c; j > 0; j--)
-                moveToFront[j] = moveToFront[j - 1];  
+                moveToFront[j] = moveToFront[j - 1]; // shift elements array down by 1
+            // move selected character to front
             moveToFront[0] = temp; 
         }
-        BinaryStdOut.flush();
         BinaryStdOut.close();
     }
 

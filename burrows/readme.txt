@@ -4,7 +4,9 @@ Programming Assignment 8: Burrows-Wheeler
  *  Which sorting algorithm did you use in CircularSuffixArray.java?
  *  Why did you choose it?
  **************************************************************************** */
-
+We chose to implement a version of MSD sort. Normal sort would have ran in
+Θ(nlogn), where n is the length of the string, which would have ran too slow.
+With MSD sort, we would be able to sort the suffix array in Θ(nR) time.
 
 /* *****************************************************************************
  *  How long does your implementation of the Burrows-Wheeler data compression
@@ -17,9 +19,9 @@ Programming Assignment 8: Burrows-Wheeler
 
 Algorithm       Compression time    Expansion time           Compression ratio
 ------------------------------------------------------------------------------
-My program
-Huffman alone                                         0.560 (667651 / 1191463)
-gzip                            
+My program      0.167s              0.089s             0.347 (413962 / 1191463)
+Huffman alone   0.025s              0.023s             0.560 (667651 / 1191463)
+gzip            0.006s              0.007s             0.407 (485952 / 1191463)        
 
 See the Checklist for Bash commands to compress/expand.
 
@@ -38,15 +40,13 @@ See the Checklist for Bash commands to compress/expand.
 
                                       typical            worst
 ---------------------------------------------------------------------
-CircularSuffixArray constructor
-BurrowsWheeler transform()
-BurrowsWheeler inverseTransform()
-MoveToFront encode()
-MoveToFront decode()
+CircularSuffixArray constructor       n log n / log R    n R                
+BurrowsWheeler transform()            n log n / log R    n R
+BurrowsWheeler inverseTransform()     n log n / log R    n R
+MoveToFront encode()                  n + R              n R
+MoveToFront decode()                  n + R              n R
 Huffman compress()                    n + R log R        n + R log R
 Huffman expand()                      n                  n
-
-
 
 
 
